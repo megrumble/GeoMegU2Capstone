@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6df440c0-ee79-4000-a593-1523ca131f65" name="Default Changelist" comment="" />
+    <list default="true" id="6df440c0-ee79-4000-a593-1523ca131f65" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/com/trilogyed/productservice/dao/ProductDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/com/trilogyed/productservice/dao/ProductDaoJdbcTemplateImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/com/trilogyed/productservice/model/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/resources/bootstrap.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/resources/schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/test/java/com/trilogyed/productservice/dao/ProductDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +66,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="0" width="717" height="736" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
       <window_info id="Designer" />
