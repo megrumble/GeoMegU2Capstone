@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+  title: Game Store Service
+  description:
+    A simple service that allows CRUD operations for a game store.
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:9999'
+    description: Spring config server
+paths:
+  /invoices:
+    post:
+      summary: Creates a new invoice entry with the given information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '201':
+          description: An invoice object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete invoice information. Some required fields missing.
+    get:
+      summary: Retrieves a list of all invoices
+      responses:
+        '200':
+          description: List of invoice objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+  /invoices/customer/{id}:
+    get:
+      summary: Retrieves a list of invoices for the given customer
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: id of the customer whose invoices you would like to retrieve
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: list of invoice objects matching given customerId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+  /invoices/{id}:
+    get:
+      summary: Retrieves the entry for the invoice with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the invoice you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: invoice object
+  /products:
+    post:
+      summary: creates a new product entry with the given information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: A product object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete product information. Some required fields missing.
+    get:
+      summary: retrieves a list of all products
+      responses:
+        '200':
+          description: List of products
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+  /products/{id}:
+    get:
+      summary: retrieves product with the given id
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the product you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: product object
+    put:
+      summary: updates product with the given id
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the product you would like to update.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: product sucessfully updated
+    delete:
+      summary: deletes product with given id
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the product you would like to update.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: product sucessfully updated
+  /products/invoice/{id}:
+    get:
+      summary: retrieves list of products by invoice id
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: invoiceId of the products you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: list of products from given invoice
+  /products/inventory:
+    get:
+      summary: retrieves a list of all products in inventory
+      responses:
+        '200':
+          description: List of all products
+  /levelup/customer/{id}:
+    get:
+      summary: retrieves levelup points fir the given customer
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: customerId of the levelup points you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: list of products from given invoice
+      
+components:
+  schemas:
+    Invoice:
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        purchaseDate:
+          type: object
+      required:
+        - id
+        - customerId
+        - purchaseDate
+    InvoiceItem:
+      properties:
+        id:
+          type: integer
+        invoiceId:
+          type: integer
+        inventoryid:
+          type: integer
+        quantity:
+          type: integer
+        unitPrice:
+          type: number
+      required:
+        - id
+        - invoiceId
+        - inventoryId
+        - quantity
+        - unitPrice
+    Product:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        listPrice:
+          type: number
+        unitCost:
+          type: number
+      required:
+        - id
+        - name
+        - description
+        - listPrice
+        - unitCost
+    LevelUp:
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        points: 
+          type: integer
+        memberDate:
+          type: object
+      required:
+       - id
+       - customerId
+       - points
+       - memberDate
+        
+        
+
+
+
+
+
+
+        
