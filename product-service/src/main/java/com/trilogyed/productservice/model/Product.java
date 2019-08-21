@@ -1,14 +1,20 @@
 package com.trilogyed.productservice.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
 
     private int id;
+    @NotEmpty(message = "Please supply a product name")
     private String name;
+    @NotEmpty(message = "Please supply a description")
     private String description;
+    @NotNull(message = "Please supply a list price")
     private BigDecimal listPrice;
+    @NotNull(message = "Please supply a unit cost")
     private BigDecimal unitCost;
 
     public int getId() {
