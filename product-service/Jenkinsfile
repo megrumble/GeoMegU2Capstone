@@ -32,6 +32,7 @@ pipeline {
                 }
             }
         }
+        }
         stage('Deliver') {
             steps {
                 dir ("${env.WORKSPACE}/product-service") {
@@ -41,6 +42,6 @@ pipeline {
                 }
             }
         }
+
     }
-}
 }
