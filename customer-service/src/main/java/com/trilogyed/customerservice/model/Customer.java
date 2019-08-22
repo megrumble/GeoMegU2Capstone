@@ -1,5 +1,7 @@
 package com.trilogyed.customerservice.model;
 
+import java.util.Objects;
+
 public class Customer {
 
     private int id;
@@ -75,5 +77,37 @@ public class Customer {
         this.phone = phone;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return getId() == customer.getId() &&
+                getFirstName().equals(customer.getFirstName()) &&
+                getLastName().equals(customer.getLastName()) &&
+                getStreet().equals(customer.getStreet()) &&
+                getCity().equals(customer.getCity()) &&
+                getZip().equals(customer.getZip()) &&
+                getEmail().equals(customer.getEmail()) &&
+                getPhone().equals(customer.getPhone());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName(), getStreet(), getCity(), getZip(), getEmail(), getPhone());
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", zip='" + zip + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }
