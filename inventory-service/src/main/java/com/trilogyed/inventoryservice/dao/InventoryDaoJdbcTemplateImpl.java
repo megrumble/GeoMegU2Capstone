@@ -26,7 +26,7 @@ public class InventoryDaoJdbcTemplateImpl  implements InventoryDao{
             "select * from inventory";
 
     public static final String UPDATE_INVENTORY_SQL =
-            "update inventory set product_id = ?, quantity = ? where inventory_id = ?";
+            "update inventory set product_id = ? , quantity = ? where inventory_id = ?";
 
     public static final String DELETE_INVENTORY_SQL =
             "delete from inventory where inventory_id = ?";
