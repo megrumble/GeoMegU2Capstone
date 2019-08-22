@@ -1,16 +1,24 @@
 package com.trilogyed.customerservice.model;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 public class Customer {
 
     private int id;
+    @NotEmpty(message = "Please supply a first name")
     private String firstName;
+    @NotEmpty(message = "Please supply a last name")
     private String lastName;
+    @NotEmpty(message = "Please supply a street")
     private String street;
+    @NotEmpty(message = "Please supply a city")
     private String city;
+    @NotEmpty(message = "Please supply a zip code")
     private String zip;
+    @NotEmpty(message = "Please supply an email")
     private String email;
+    @NotEmpty(message = "Please supply a phone number")
     private String phone;
 
     public int getId() {
