@@ -101,7 +101,7 @@ public class InventoryServiceTest {
     public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
-    public void shouldThrowRuntimeExceptionWhenProductIsNull() throws Exception {
+    public void shouldThrowRuntimeExceptionWhenInventoryIsNull() throws Exception {
         int id = 4;
         expectedEx.expect(NotFoundException.class);
         expectedEx.expectMessage("There is no inventory with ID " + id);
