@@ -70,7 +70,7 @@ public class ProductServiceTest {
         product2.setUnitCost(new BigDecimal("45.00"));
         productList.add(product2);
 
-        List<Product> productList1 = productDao.getAllProducts();
+        List<Product> productList1 = productService.findAllProducts();
         assertEquals(productList, productList1);
 
     }

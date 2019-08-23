@@ -79,7 +79,7 @@ public class CustomerServiceTest {
         customer2.setPhone("1234567890");
         customers.add(customer2);
 
-        List<Customer> customers1 = customerDao.getAllCustomers();
+        List<Customer> customers1 = customerService.findAllCustomers();
         assertEquals(customers, customers1);
     }
 

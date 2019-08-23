@@ -30,7 +30,7 @@ public class ProductService {
         return product;
     }
     //get a list of all products
-    public List<Product> findAllProoducts() {
+    public List<Product> findAllProducts() {
         return dao.getAllProducts();
     }
     //update product

@@ -37,7 +37,7 @@ public class ProductServiceController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllProducts() {
-        return service.findAllProoducts();
+        return service.findAllProducts();
 
     }
     //update product
