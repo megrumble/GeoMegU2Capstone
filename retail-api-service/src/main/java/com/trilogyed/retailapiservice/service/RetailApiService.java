@@ -6,6 +6,8 @@ import com.trilogyed.retailapiservice.models.*;
 import com.trilogyed.retailapiservice.util.feign.*;
 import com.trilogyed.retailapiservice.viewmodel.InvoiceViewModel;
 import com.trilogyed.retailapiservice.viewmodel.RetailViewModel;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -15,6 +17,11 @@ import java.util.List;
 
 @Component
 public class RetailApiService {
+    public static final String EXCHANGE = "level-up-exchange";
+    public static final String ROUTING_KEY = "level-up.create.#";
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     ProductServiceClient productClient;
     LevelUpServiceClient levelUpClient;
@@ -26,12 +33,14 @@ public class RetailApiService {
                             LevelUpServiceClient levelUpClient,
                             InvoiceServiceClient invoiceClient,
                             CustomerServiceClient customerClient,
-                            InventoryServiceClient inventoryClient) {
+                            InventoryServiceClient inventoryClient,
+                            RabbitTemplate rabbitTemplate) {
         this.productClient = productClient;
         this.levelUpClient = levelUpClient;
         this.invoiceClient = invoiceClient;
         this.customerClient = customerClient;
         this.inventoryClient = inventoryClient;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public RetailViewModel submitOrder(RetailViewModel rvm) {
@@ -122,7 +131,11 @@ public class RetailApiService {
 
     private void sendPointsToQueue(Member member) {
         //send points to queue from here
+        System.out.println("Sending message...");
+        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, member);
+        System.out.println("Message Sent");
     }
+
 
 //    private boolean isValidCustomer(int customerId) {
 //        return false;
