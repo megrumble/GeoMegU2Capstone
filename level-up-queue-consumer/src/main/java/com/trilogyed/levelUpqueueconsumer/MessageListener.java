@@ -19,10 +19,11 @@ public class MessageListener {
     }
     @RabbitListener(queues = LevelUpQueueConsumerApplication.QUEUE_NAME)
     public void receivemessages(Member msg) {
-        if( msg.getLevelUpId() ==0) {
-            client.addMember(msg);
-        } else {
-            client.updateMember(msg.getLevelUpId(), msg);
-        }
+        client.addPointsToMember(msg);
+//        if( msg.getLevelUpId() ==0) {
+//            client.addMember(msg);
+//        } else {
+//            client.updateMember(msg.getLevelUpId(), msg);
+//        }
     }
 }

@@ -23,7 +23,11 @@ public class RetailApiController {
 
     @RequestMapping(value = "/invoices", method = RequestMethod.POST)
     public RetailViewModel submitOrder(@RequestBody RetailViewModel order) {
-        return retailService.submitOrder;
+//        try {
+            return retailService.submitOrder(order);
+//        } catch (Exception e){
+//            throw new IllegalArgumentException
+//        }
     }
 
     @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)

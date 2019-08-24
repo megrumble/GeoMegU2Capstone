@@ -4,15 +4,16 @@ import com.trilogyed.levelUpqueueconsumer.util.messages.Member;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/levelUp")
+@RequestMapping("/levelUp/addPoints")
 @FeignClient(name = "level-up-service")
 public interface LevelUpServiceClient {
 
-    @PostMapping
-    public Member addMember(@RequestBody Member member);
+//    @PostMapping
+//    public Member addMember(@RequestBody Member member);
+//
+//    @PutMapping("/{id}")
+//    public void updateMember(@PathVariable int id, @RequestBody Member member);
 
-    @PutMapping("/{id}")
-    public void updateMember(@PathVariable int id, @RequestBody Member member);
-
-
+    @PutMapping
+    public void addPointsToMember(@RequestBody Member member);
 }

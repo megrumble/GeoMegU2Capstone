@@ -1,5 +1,6 @@
 package com.trilogyed.retailapiservice.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.trilogyed.retailapiservice.exception.NotFoundException;
 import com.trilogyed.retailapiservice.models.*;
 import com.trilogyed.retailapiservice.util.feign.*;
@@ -110,6 +111,13 @@ public class RetailApiService {
         rvm.setPurchaseDate(LocalDate.now());
 
         return rvm;
+    }
+
+    @HystrixCommand(fallbackMethod = "reliable") //fallbackmethod not implemented yet
+    public int getPointsByCustomerId(int id) {
+
+        return levelUpClient.getPointsByCustId(id);
+
     }
 
     private void sendPointsToQueue(Member member) {
