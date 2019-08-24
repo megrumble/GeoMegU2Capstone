@@ -60,11 +60,28 @@ public class InvoiceItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InvoiceItem that = (InvoiceItem) o;
-        return invoiceItemId == that.invoiceItemId &&
-                invoiceId == that.invoiceId &&
-                inventoryId == that.inventoryId &&
-                quantity == that.quantity &&
-                unitPrice.equals(that.unitPrice);
+        boolean check = false;
+        if(getInvoiceId() == that.getInvoiceId())  {
+            check = true;
+        }else{
+            return false;
+        }
+        if(getInventoryId() ==  that.getInventoryId()){
+            check=true;
+        }else{
+            return false;
+        }
+        if(getQuantity() == that.getQuantity()){
+            check = true;
+        }else{
+            return false;
+        }
+        if((getUnitPrice() == null && that.getUnitPrice() == null) ||getUnitPrice().equals(that.getUnitPrice())){
+            check = true;
+        }else{
+            return false;
+        }
+        return check ;
     }
 
     @Override
