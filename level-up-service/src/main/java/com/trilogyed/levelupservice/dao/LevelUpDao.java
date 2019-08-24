@@ -18,4 +18,8 @@ public interface LevelUpDao {
 
     public void deleteMember(int id);
 
+    public Member getMemberByCustomerId(int id);
+
+    public void addPointsToMember(Member member);
+
 }

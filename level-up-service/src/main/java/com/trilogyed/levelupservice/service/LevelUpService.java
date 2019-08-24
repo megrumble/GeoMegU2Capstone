@@ -52,4 +52,12 @@ public class LevelUpService {
         levelUpDao.deleteMember(id);
 
     }
+
+    public Member findMemberByCustomerId(int id) {
+        return levelUpDao.getMemberByCustomerId(id);
+    }
+
+    public void addPointsToMember(Member member){
+        levelUpDao.addPointsToMember(member);
+    }
 }

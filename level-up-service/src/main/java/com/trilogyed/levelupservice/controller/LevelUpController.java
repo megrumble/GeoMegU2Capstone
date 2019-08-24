@@ -4,6 +4,7 @@ import com.trilogyed.levelupservice.dto.Member;
 import com.trilogyed.levelupservice.exception.NotFoundException;
 import com.trilogyed.levelupservice.service.LevelUpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RefreshScope
 public class LevelUpController {
 
     @Autowired
@@ -66,5 +68,24 @@ public class LevelUpController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMember(@PathVariable("id") int id) {
         service.deleteMember(id);
+    }
+
+    @RequestMapping(value = "/levelup/customer/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Member getMemberByCustomerId(@PathVariable("id") int id) {
+        Member member = service.findMemberByCustomerId(id);
+        if (member == null) {
+            throw new NotFoundException("No member found for customer id " + id);
+        }
+        return member;
+    }
+
+    @RequestMapping(value = "/levelup/addpoints", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addPointsToMember(@RequestBody Member member){
+        if (member == null){
+            throw new IllegalArgumentException("Member cannot be null in order to add points");
+        }
+        service.addPointsToMember(member);
     }
 }

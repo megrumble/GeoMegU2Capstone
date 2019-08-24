@@ -27,6 +27,8 @@ public class LevelUpDaoJdbcTemplateImpl implements LevelUpDao{
             "update level_up set customer_id = ? , points = ? , member_date = ? where level_up_id = ?";
     private String DELETE_MEMBER =
             "delete from level_up where level_up_id = ?";
+    private String SELECT_MEMBER_BY_CUSTOMER_ID =
+            "select * from level_up where customer_id = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -88,6 +90,19 @@ public class LevelUpDaoJdbcTemplateImpl implements LevelUpDao{
     }
 
     @Override
+    public Member getMemberByCustomerId(int id) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    SELECT_MEMBER_BY_CUSTOMER_ID,
+                    this::mapRowToMember,
+                    id
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
     @Transactional
     public void updateMember(int id, Member member) {
         jdbcTemplate.update(UPDATE_MEMBER,
@@ -120,5 +135,20 @@ public class LevelUpDaoJdbcTemplateImpl implements LevelUpDao{
         int points = rs.getInt("points");
 
         return points;
+    }
+
+    @Override
+    public void addPointsToMember(Member member) {
+        int pointsToAdd = member.getPoints();
+
+        Member member1 = jdbcTemplate.queryForObject(
+                SELECT_MEMBER_BY_CUSTOMER_ID,
+                this::mapRowToMember,
+                member.getCustomerId()
+        );
+
+        member1.setPoints(member.getPoints() + member1.getPoints());
+
+        updateMember(member1.getLevelUpId(), member1);
     }
 }
