@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("/levelUp")
+@RequestMapping("/levelup")
 @FeignClient(name = "level-up-service")
 public interface LevelUpServiceClient {
 

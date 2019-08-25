@@ -42,13 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.authorizeRequests()
                 .mvcMatchers(HttpMethod.GET, "/admin/customers", "/admin/customers/*", "/admin/products", "/admin/products/*",
-                        "/admin/inventory", "/admin/inventory/*", "/admin/invoice", "/admin/invoice/*", "/admin/levelUp", "/admin/levelUp/*")
+                        "/admin/inventory", "/admin/inventory/*", "/admin/invoice", "/admin/invoice/*", "/admin/levelup", "/admin/levelup/*")
                 .hasAuthority("ROLE_EMPLOYEE")
                 .mvcMatchers(HttpMethod.PUT, "/admin/customers/*", "/admin/products/*", "/admin/inventory/*",
-                        "/admin/levelUp/*", "/admin/invoice").hasAuthority("ROLE_EMPLOYEE")
+                        "/admin/levelup/*", "/admin/invoice").hasAuthority("ROLE_EMPLOYEE")
                 .mvcMatchers(HttpMethod.POST, "/admin/customers").hasAuthority("ROLE_LEAD")
                 .mvcMatchers(HttpMethod.POST, "/admin/products", "/admin/inventory",
-                        "/admin/invoice", "/admin/levelUp").hasAuthority("ROLE_MANAGER")
+                        "/admin/invoice", "/admin/levelup").hasAuthority("ROLE_MANAGER")
                 .mvcMatchers(HttpMethod.DELETE, "/admin/customers/*", "/admin/products/*",
                         "/admin/inventory/*", "/admin/invoice/*", "/admin/levelUp/*").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll();
