@@ -26,27 +26,27 @@ public class CustomerServiceController {
     //add customer
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody @Valid Customer customer, Principal principal) {
+    public Customer addCustomer(@RequestBody @Valid Customer customer, Principal principal) {
         return service.addCustomer(customer);
     }
 
     //get customer
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Customer getCustomerById(@PathVariable int id, Principal principal) {
+    public Customer retrieveCustomerById(@PathVariable int id, Principal principal) {
         return service.findCustomer(id);
     }
     //get list of all customers
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Customer> getAllCustomers(Principal principal) {
+    public List<Customer> retrieveAllCustomers(Principal principal) {
         return service.findAllCustomers();
     }
 
     //update customer
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCustomer(@PathVariable int id, @RequestBody @Valid Customer customer, Principal principal) throws Exception {
+    public void updateCustomerById(@PathVariable int id, @RequestBody @Valid Customer customer, Principal principal) throws Exception {
         if(customer.getId() == 0) {
             customer.setId(id);
             if(id != customer.getId()) {
@@ -59,7 +59,7 @@ public class CustomerServiceController {
     //delete customer
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCustomer(@PathVariable int id, Principal principal) {
+    public void deleteCustomerById(@PathVariable int id, Principal principal) {
         service.deleteCustomer(id);
     }
 }
