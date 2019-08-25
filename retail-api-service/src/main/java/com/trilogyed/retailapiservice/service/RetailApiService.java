@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class RetailApiService {
@@ -77,7 +78,7 @@ public class RetailApiService {
 
         if(!rvm.getOrderItems().isEmpty()) {
             for (OrderItem item : rvm.getOrderItems()) {
-                totalAmount.add(item.getListPrice().multiply(new BigDecimal(item.getQuantity())));
+                totalAmount = totalAmount.add(item.getListPrice().multiply(new BigDecimal(item.getQuantity())));
             }
         } else {
             System.out.println("The order items list is empty");
@@ -136,6 +137,80 @@ public class RetailApiService {
 
     }
 
+    public InvoiceViewModel getInvoiceById(int id) {
+        InvoiceViewModel ivm = invoiceClient.getInvoice(id);
+        if(ivm == null){
+            throw new NotFoundException("No invoice found for id" + id);
+        }
+
+        return ivm;
+    }
+
+    public List<InvoiceViewModel> getAllInvoices(){
+        List<InvoiceViewModel> ivmList = invoiceClient.getAllInvoices();
+        if(ivmList.isEmpty()) {
+            throw new NotFoundException("No invoices available");
+        }
+
+        return ivmList;
+    }
+
+    public List<InvoiceViewModel> getInvoicesByCustId(int id){
+        List<InvoiceViewModel> ivmList = invoiceClient.getInvoicesByCustomer(id);
+        if(ivmList.isEmpty()){
+            throw new NotFoundException("No invoices available for customer id " + id);
+        }
+        return ivmList;
+    }
+
+    public List<Product> getProductsInInventory(){
+        try {
+            List<Inventory> inventoryList = inventoryClient.getAllInventories();
+            inventoryList = inventoryList.stream()
+                    .filter(inventory -> inventory.getQuantity() > 0).collect(Collectors.toList());
+
+            List<Product> productList = new ArrayList<>();
+            for (Inventory inventory : inventoryList) {
+                productList.add(productClient.getProductById(inventory.getProductId()));
+            }
+
+            return productList;
+        } catch (Exception e) {
+            throw new NotFoundException("Either no inventory found or no product found");
+        }
+    }
+
+    public Product getProductById(int id){
+        Product product = productClient.getProductById(id);
+        if(product == null){
+            throw new NotFoundException("No product found for id " + id);
+        }
+        return product;
+    }
+
+    public List<Product> getProductByInvoiceId(int id){
+        List<InvoiceItem> invoiceItems = invoiceClient.getInvoice(id).getInvoiceItemsList();
+        if(invoiceItems.isEmpty()){
+            throw new NotFoundException("No items found for id " + id);
+        }
+        List<Product> productList = new ArrayList<>();
+        for(InvoiceItem item: invoiceItems){
+            productList.add(
+                    productClient.getProductById(
+                            inventoryClient.getInventoryById(
+                                    item.getInventoryId()
+                            )
+                                    .getProductId()
+                    )
+            );
+        }
+        return productList;
+    }
+
+    public int getLevelUpPointsByCustomerId(int id){
+        return levelUpClient.getPointsByCustId(id);
+    }
+
     private void sendPointsToQueue(Member member) {
         //send points to queue from here
         System.out.println("Sending message...");
@@ -143,18 +218,7 @@ public class RetailApiService {
         System.out.println("Message Sent");
     }
 
-
-//    private boolean isValidCustomer(int customerId) {
-//        return false;
-//    }
-
-//    private boolean isValidProduct(int productId) {
-//        return false;
-//    }
-
-//    private int availableInInventory(int productId) {
-//        return 0;
-//    }
+    
 
     private boolean isLevelUpMember(int customerId) {
 
