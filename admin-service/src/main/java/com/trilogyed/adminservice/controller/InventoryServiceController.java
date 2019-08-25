@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RefreshScope
-@RequestMapping("/inventory/inventory")
+@RequestMapping("/admin/inventory")
 public class InventoryServiceController {
 
     @Autowired

@@ -23,14 +23,14 @@ public class LevelUpServiceController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/levelUp/levelup", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/levelup", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Member createMember(@Valid @RequestBody Member member, Principal principal) {
         member = service.addMember(member);
         return member;
     }
 
-    @RequestMapping(value = "/levelUp/levelup/member/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/levelup/member/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Member getMember(@PathVariable("id") int id, Principal principal) {
         Member member = service.findMember(id);
@@ -40,7 +40,7 @@ public class LevelUpServiceController {
         return member;
     }
 
-    @RequestMapping(value = "/levelUp/levelup", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/levelup", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Member> getAllMembers(Principal principal) {
         List<Member> memberList = service.findAllMembers();
@@ -50,13 +50,13 @@ public class LevelUpServiceController {
         return memberList;
     }
 
-    @RequestMapping(value = "/levelUp/levelup/points/{custId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/levelup/points/{custId}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public int getPointsByCustId(@PathVariable("custId") int id, Principal principal) {
         return service.findPointsByCustomerId(id);
     }
 
-    @RequestMapping(value = "/levelup/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/admin/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateMember(@PathVariable("id") int id,@Valid @RequestBody Member member, Principal principal) {
         if (member.getLevelUpId() != id) {
@@ -65,7 +65,7 @@ public class LevelUpServiceController {
         service.updateMember(id, member);
     }
 
-    @RequestMapping(value = "/levelUp/levelup/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/admin/levelup/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMember(@PathVariable("id") int id, Principal principal) {
         service.deleteMember(id);
