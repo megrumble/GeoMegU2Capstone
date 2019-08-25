@@ -40,6 +40,7 @@ public class RetailApiServiceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        setUpCustomerClientMock();
 
     }
 

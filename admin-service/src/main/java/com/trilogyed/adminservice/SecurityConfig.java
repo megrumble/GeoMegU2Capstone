@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -15,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     DataSource dataSource;
@@ -40,16 +41,16 @@ public class SecurityConfig {
         httpSecurity.httpBasic();
 
         httpSecurity.authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, "/customers", "/customers/*", "/products", "/products/*",
-                        "/inventory", "?inventory/*", "/invoice", "/invoice/*", "/levelUp", "/levelUp/*")
+                .mvcMatchers(HttpMethod.GET, "/customers/customer", "/customers/customer/*", "/products/product", "/products/products/*",
+                        "/inventory/inventory", "/inventory/inventory/*", "/invoice/invoice", "/invoice/invoice/*", "/levelUp/levelUp", "/levelUp/levelUp/*")
                 .hasAuthority("ROLE_EMPLOYEE")
-                .mvcMatchers(HttpMethod.PUT, "/customers/*", "/products/*", "/inventory/*",
-                        "/levelUp/*", "/invoice").hasAuthority("ROLE_EMPLOYEE")
-                .mvcMatchers(HttpMethod.POST, "/customers").hasAuthority("ROLE_LEAD")
-                .mvcMatchers(HttpMethod.POST, "/products", "/inventory",
-                        "/invoice", "/levelUp").hasAuthority("ROLE_MANAGER")
-                .mvcMatchers(HttpMethod.DELETE, "/customers/*", "/products/*",
-                        "/inventory/*", "/invoice/*", "/levelUp/*").hasAuthority("ROLE_ADMIN")
+                .mvcMatchers(HttpMethod.PUT, "/customers/customer/*", "/products/product/*", "/inventory/inventory/*",
+                        "/levelUp/levelUp/*", "/invoice/invoice").hasAuthority("ROLE_EMPLOYEE")
+                .mvcMatchers(HttpMethod.POST, "/customers/customer").hasAuthority("ROLE_LEAD")
+                .mvcMatchers(HttpMethod.POST, "/products/product", "/inventory/inventory",
+                        "/invoice/invoice", "/levelUp/levelUp").hasAuthority("ROLE_MANAGER")
+                .mvcMatchers(HttpMethod.DELETE, "/customers/customer/*", "/products/products/*",
+                        "/inventory/inventory/*", "/invoice/invoice/*", "/levelUp/levelUp/*").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll();
 
         httpSecurity
