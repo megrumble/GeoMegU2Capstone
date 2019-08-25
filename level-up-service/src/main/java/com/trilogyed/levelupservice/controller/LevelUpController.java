@@ -79,11 +79,13 @@ public class LevelUpController {
         return member;
     }
 
-    @RequestMapping(value = "/levelup/addpoints", method = RequestMethod.PUT)
+    @RequestMapping(value = "/levelup/addPoints", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addPointsToMember(@RequestBody Member member){
+        System.out.println(member.toString() + " in level up service");
         if (member == null){
-            throw new IllegalArgumentException("Member cannot be null in order to add points");
+//            throw new IllegalArgumentException("Member cannot be null in order to add points");
+            System.out.println("member is null");
         }
         service.addPointsToMember(member);
     }

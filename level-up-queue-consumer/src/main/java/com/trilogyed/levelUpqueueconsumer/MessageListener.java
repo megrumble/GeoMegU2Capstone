@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Component
+//@Component
 @Service
 public class MessageListener {
 
@@ -17,13 +17,19 @@ public class MessageListener {
     public MessageListener(LevelUpServiceClient client) {
         this.client = client;
     }
+
     @RabbitListener(queues = LevelUpQueueConsumerApplication.QUEUE_NAME)
-    public void receivemessages(Member msg) {
-        client.addPointsToMember(msg);
+    public void receivemessages(Member msg){
+        System.out.println(msg.toString());
+        if(client != null) {
+            client.addPointsToMember(msg);
 //        if( msg.getLevelUpId() ==0) {
 //            client.addMember(msg);
 //        } else {
 //            client.updateMember(msg.getLevelUpId(), msg);
 //        }
+        } else{
+            System.out.println("level up client is null");
+        }
     }
 }

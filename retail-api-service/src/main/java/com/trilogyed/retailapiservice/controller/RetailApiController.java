@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RefreshScope
+@RequestMapping("/retail")
 public class RetailApiController {
     // Retail Endpoints
     @Autowired

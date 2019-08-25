@@ -29,6 +29,7 @@ public class RetailApiService {
     CustomerServiceClient customerClient;
     InventoryServiceClient inventoryClient;
 
+    @Autowired
     public RetailApiService(ProductServiceClient productClient,
                             LevelUpServiceClient levelUpClient,
                             InvoiceServiceClient invoiceClient,
@@ -74,13 +75,18 @@ public class RetailApiService {
         //calculate total order amount
         BigDecimal totalAmount = new BigDecimal(0);
 
-        for(OrderItem item: rvm.getOrderItems()){
-            totalAmount.add(item.getListPrice().multiply(new BigDecimal(item.getQuantity())));
+        if(!rvm.getOrderItems().isEmpty()) {
+            for (OrderItem item : rvm.getOrderItems()) {
+                totalAmount.add(item.getListPrice().multiply(new BigDecimal(item.getQuantity())));
+            }
+        } else {
+            System.out.println("The order items list is empty");
         }
 
         // check if customer is a level up member
         if(isLevelUpMember(rvm.getCustomerId())) {
             rvm.setPoints(calculatePoints(totalAmount));
+            //TODO check for null pointer
             Member member = levelUpClient.getMemberByCustomerId(rvm.getCustomerId());
             member.setPoints(rvm.getPoints());
             sendPointsToQueue(member);
@@ -104,6 +110,7 @@ public class RetailApiService {
                     invoiceItem.setInventoryId(inventory.getId());
                     invoiceItem.setQuantity(item.getQuantity());
                     invoiceItem.setUnitPrice(productClient.getProductById(item.getProductId()).getListPrice());
+                    ivm.setInvoiceItemsList(new ArrayList<>());
                     ivm.getInvoiceItemsList().add(invoiceItem);
 
                 }

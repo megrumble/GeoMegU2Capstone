@@ -4,7 +4,7 @@ import com.trilogyed.levelUpqueueconsumer.util.messages.Member;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/levelUp/addPoints")
+@RequestMapping("/levelup/addPoints")
 @FeignClient(name = "level-up-service")
 public interface LevelUpServiceClient {
 
