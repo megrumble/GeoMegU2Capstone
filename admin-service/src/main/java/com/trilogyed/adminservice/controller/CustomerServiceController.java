@@ -12,7 +12,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customers/customer")
+@RequestMapping("/admin/customers")
 @RefreshScope
 public class CustomerServiceController {
 

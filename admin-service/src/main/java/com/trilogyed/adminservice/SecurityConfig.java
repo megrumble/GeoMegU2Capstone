@@ -41,16 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.httpBasic();
 
         httpSecurity.authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, "/customers/customer", "/customers/customer/*", "/products/product", "/products/products/*",
-                        "/inventory/inventory", "/inventory/inventory/*", "/invoice/invoice", "/invoice/invoice/*", "/levelUp/levelUp", "/levelUp/levelUp/*")
+                .mvcMatchers(HttpMethod.GET, "/admin/customers", "/admin/customers/*", "/admin/products", "/admin/products/*",
+                        "/admin/inventory", "/admin/inventory/*", "/admin/invoice", "/admin/invoice/*", "/admin/levelUp", "/admin/levelUp/*")
                 .hasAuthority("ROLE_EMPLOYEE")
-                .mvcMatchers(HttpMethod.PUT, "/customers/customer/*", "/products/product/*", "/inventory/inventory/*",
-                        "/levelUp/levelUp/*", "/invoice/invoice").hasAuthority("ROLE_EMPLOYEE")
-                .mvcMatchers(HttpMethod.POST, "/customers/customer").hasAuthority("ROLE_LEAD")
-                .mvcMatchers(HttpMethod.POST, "/products/product", "/inventory/inventory",
-                        "/invoice/invoice", "/levelUp/levelUp").hasAuthority("ROLE_MANAGER")
-                .mvcMatchers(HttpMethod.DELETE, "/customers/customer/*", "/products/products/*",
-                        "/inventory/inventory/*", "/invoice/invoice/*", "/levelUp/levelUp/*").hasAuthority("ROLE_ADMIN")
+                .mvcMatchers(HttpMethod.PUT, "/admin/customers/*", "/admin/products/*", "/admin/inventory/*",
+                        "/admin/levelUp/*", "/admin/invoice").hasAuthority("ROLE_EMPLOYEE")
+                .mvcMatchers(HttpMethod.POST, "/admin/customers").hasAuthority("ROLE_LEAD")
+                .mvcMatchers(HttpMethod.POST, "/admin/products", "/admin/inventory",
+                        "/admin/invoice", "/admin/levelUp").hasAuthority("ROLE_MANAGER")
+                .mvcMatchers(HttpMethod.DELETE, "/admin/customers/*", "/admin/products/*",
+                        "/admin/inventory/*", "/admin/invoice/*", "/admin/levelUp/*").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll();
 
         httpSecurity
