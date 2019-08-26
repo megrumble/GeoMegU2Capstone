@@ -67,7 +67,7 @@ public class RetailApiServiceTest {
         rvm.setOrderItems(orderItems);
     }
     @Test
-    public void findInvoices() {
+    public void findInvoice() {
         List<InvoiceItem> invoiceItems = new ArrayList<>();
 
         InvoiceItem invItem = new InvoiceItem();
@@ -92,9 +92,128 @@ public class RetailApiServiceTest {
 //        List<InvoiceViewModel> invoiceViewModels = service.getAllInvoices();
 //        assertEquals(invoiceViewModels.size(), 1);
 
+    }
+    @Test
+    public void findAllInvoices() {
+        List<InvoiceItem> invoiceItems = new ArrayList<>();
+
+        InvoiceItem invItem = new InvoiceItem();
+        invItem.setInvoiceItemId(9);
+        invItem.setInvoiceId(1);
+        invItem.setInventoryId(1);
+        invItem.setQuantity(2);
+        invItem.setUnitPrice(new BigDecimal("5.00").setScale(2, RoundingMode.HALF_UP));
+        invoiceItems.add(invItem);
+
+        InvoiceViewModel ivm = new InvoiceViewModel();
+        ivm.setInvoiceId(1);
+        ivm.setCustomerId(12);
+        ivm.setPurchaseDate(LocalDate.of(2019, 9,1));
+        ivm.setInvoiceItemsList(invoiceItems);
+
+        List<InvoiceItem> invoiceItems2 = new ArrayList<>();
+
+        InvoiceItem invItem2 = new InvoiceItem();
+        invItem2.setInvoiceItemId(10);
+        invItem2.setInvoiceId(2);
+        invItem2.setInventoryId(3);
+        invItem2.setQuantity(12);
+        invItem2.setUnitPrice(new BigDecimal("3.00").setScale(2, RoundingMode.HALF_UP));
+        invoiceItems2.add(invItem2);
+
+        InvoiceViewModel ivm1 = new InvoiceViewModel();
+        ivm1.setInvoiceId(2);
+        ivm1.setCustomerId(12);
+        ivm1.setPurchaseDate(LocalDate.of(2019, 9,1));
+        ivm1.setInvoiceItemsList(invoiceItems2);
+
+        List<InvoiceViewModel> invoiceViewModels = new ArrayList<>();
+        invoiceViewModels.add(ivm);
+        invoiceViewModels.add(ivm1);
+
+        List<InvoiceViewModel> ivmList = service.getAllInvoices();
+
+        assertEquals(invoiceViewModels, ivmList);
+
+    }
+    @Test
+    public void findInvoicesByCustomer() {
+        List<InvoiceItem> invoiceItems = new ArrayList<>();
+
+        InvoiceItem invItem = new InvoiceItem();
+        invItem.setInvoiceItemId(9);
+        invItem.setInvoiceId(1);
+        invItem.setInventoryId(1);
+        invItem.setQuantity(2);
+        invItem.setUnitPrice(new BigDecimal("5.00").setScale(2, RoundingMode.HALF_UP));
+        invoiceItems.add(invItem);
+
+        InvoiceViewModel ivm = new InvoiceViewModel();
+        ivm.setInvoiceId(1);
+        ivm.setCustomerId(12);
+        ivm.setPurchaseDate(LocalDate.of(2019, 9,1));
+        ivm.setInvoiceItemsList(invoiceItems);
+
+        List<InvoiceItem> invoiceItems2 = new ArrayList<>();
+
+        InvoiceItem invItem2 = new InvoiceItem();
+        invItem2.setInvoiceItemId(10);
+        invItem2.setInvoiceId(2);
+        invItem2.setInventoryId(3);
+        invItem2.setQuantity(12);
+        invItem2.setUnitPrice(new BigDecimal("3.00").setScale(2, RoundingMode.HALF_UP));
+        invoiceItems2.add(invItem2);
+
+        InvoiceViewModel ivm1 = new InvoiceViewModel();
+        ivm1.setInvoiceId(2);
+        ivm1.setCustomerId(12);
+        ivm1.setPurchaseDate(LocalDate.of(2019, 9,1));
+        ivm1.setInvoiceItemsList(invoiceItems2);
+
+        List<InvoiceViewModel> invoiceViewModels = new ArrayList<>();
+        invoiceViewModels.add(ivm);
+        invoiceViewModels.add(ivm1);
+
+        List<InvoiceViewModel> ivmByCustomer = service.getInvoicesByCustId(12);
+
+        assertEquals(ivmByCustomer, invoiceViewModels);
+    }
+    @Test
+    public void findProduct() {
+        Product product = new Product();
+        product.setId(1);
+        product.setName("Game");
+        product.setDescription("Fun");
+        product.setListPrice(new BigDecimal("20.00"));
+        product.setUnitCost(new BigDecimal("5.00"));
+
+        Product fromService = service.getProductById(product.getId());
+        assertEquals(product, fromService);
 
 
+    }
+    @Test
+    public void findProductsInInventory() {
+        Product product = new Product();
+        product.setId(1);
+        product.setName("Game");
+        product.setDescription("Fun");
+        product.setListPrice(new BigDecimal("20.00"));
+        product.setUnitCost(new BigDecimal("5.00"));
 
+        Product product2 = new Product();
+        product2.setId(2);
+        product2.setName("Console");
+        product2.setDescription("Amazing!");
+        product2.setListPrice(new BigDecimal("200.00"));
+        product2.setUnitCost(new BigDecimal("45.00"));
+
+        List<Product> productList = new ArrayList<>();
+        productList.add(product);
+        productList.add(product2);
+
+        List<Product> products = service.getProductsInInventory();
+        assertEquals(products, productList);
 
     }
 
@@ -124,12 +243,9 @@ public class RetailApiServiceTest {
         productList.add(product);
         productList.add(product2);
 
-        OrderItem item = mock(OrderItem.class);
-
-
-        doReturn(1).when(item.getProductId());
         doReturn(product).when(productClient).createProduct(product1);
         doReturn(product).when(productClient).getProductById(1);
+        doReturn(product2).when(productClient).getProductById(2);
         doReturn(productList).when(productClient).getAllProducts();
         doReturn(null).when(productClient).getProductById(4);
     }
@@ -188,12 +304,19 @@ public class RetailApiServiceTest {
         inventory2.setProductId(2);
         inventory2.setQuantity(20);
 
+        Inventory inventory3 = new Inventory();
+        inventory2.setProductId(2);
+        inventory2.setQuantity(20);
+
+
+
         List<Inventory> inventoryList = new ArrayList<>();
         inventoryList.add(inventory);
         inventoryList.add(inventory2);
 
         doReturn(inventory).when(inventoryClient).createInventory(inventory1);
         doReturn(inventory).when(inventoryClient).getInventoryById(1);
+        doReturn(inventory2).when(inventoryClient).getInventoryById(2);
         doReturn(inventoryList).when(inventoryClient).getAllInventories();
         doReturn(null).when(inventoryClient).getInventoryById(4);
     }
@@ -201,6 +324,8 @@ public class RetailApiServiceTest {
 
         List<InvoiceViewModel> invoiceList = new ArrayList<>();
         List<InvoiceItem> invoiceItemsInvoice1 = new ArrayList<>();
+        List<InvoiceItem> invoiceItemsInvoice2 = new ArrayList<>();
+
 
         InvoiceItem invItem = new InvoiceItem();
         invItem.setInvoiceItemId(9);
@@ -212,11 +337,11 @@ public class RetailApiServiceTest {
 
         InvoiceItem invItem2 = new InvoiceItem();
         invItem2.setInvoiceItemId(10);
-
+        invItem2.setInvoiceId(2);
         invItem2.setInventoryId(3);
         invItem2.setQuantity(12);
         invItem2.setUnitPrice(new BigDecimal("3.00").setScale(2, RoundingMode.HALF_UP));
-//        invoiceItemsInvoice1.add(invItem2);
+        invoiceItemsInvoice2.add(invItem2);
 
 
         InvoiceViewModel invoice1 = new InvoiceViewModel();
@@ -230,10 +355,18 @@ public class RetailApiServiceTest {
         invoice2.setPurchaseDate(LocalDate.of(2019, 9, 1));
         invoice2.setInvoiceItemsList(invoiceItemsInvoice1);
 
+        InvoiceViewModel invoice3 = new InvoiceViewModel();
+        invoice3.setInvoiceId(2);
+        invoice3.setCustomerId(12);
+        invoice3.setPurchaseDate(LocalDate.of(2019, 9,1));
+        invoice3.setInvoiceItemsList(invoiceItemsInvoice2);
+
         invoiceList.add(invoice1);
+        invoiceList.add(invoice3);
 
         doReturn(invoice1).when(invoiceClient).createInvoice(invoice2);
         doReturn(invoice1).when(invoiceClient).getInvoice(1);
+        doReturn(invoice3).when(invoiceClient).getInvoice(2);
         doReturn(invoiceList).when(invoiceClient).getAllInvoices();
         doReturn(invoiceList).when(invoiceClient).getInvoicesByCustomer(12);
 
