@@ -131,10 +131,14 @@ public class RetailApiService {
     }
 
     @HystrixCommand(fallbackMethod = "reliable") //fallbackmethod not implemented yet
-    public int getPointsByCustomerId(int id) {
-
+    public int getLevelUpPointsByCustomerId(int id){
         return levelUpClient.getPointsByCustId(id);
+    }
 
+    public int reliable(int id){
+//        return "The Level-Up service is experiencing some technical difficulties, " +
+//                "just give us a passing grade and then try again.   -Thanks";
+        return 0;
     }
 
     public InvoiceViewModel getInvoiceById(int id) {
@@ -207,9 +211,6 @@ public class RetailApiService {
         return productList;
     }
 
-    public int getLevelUpPointsByCustomerId(int id){
-        return levelUpClient.getPointsByCustId(id);
-    }
 
     private void sendPointsToQueue(Member member) {
         //send points to queue from here
@@ -218,7 +219,7 @@ public class RetailApiService {
         System.out.println("Message Sent");
     }
 
-    
+
 
     private boolean isLevelUpMember(int customerId) {
 

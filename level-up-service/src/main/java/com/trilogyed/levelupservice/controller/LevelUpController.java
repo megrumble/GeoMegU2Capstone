@@ -79,7 +79,7 @@ public class LevelUpController {
         return member;
     }
 
-    @RequestMapping(value = "/levelup/addPoints", method = RequestMethod.PUT)
+    @RequestMapping(value = "/levelup/addpoints", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addPointsToMember(@RequestBody Member member){
         System.out.println(member.toString() + " in level up service");

@@ -6,6 +6,9 @@ import com.trilogyed.retailapiservice.viewmodel.InvoiceViewModel;
 import com.trilogyed.retailapiservice.models.Product;
 import com.trilogyed.retailapiservice.viewmodel.RetailViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @RestController
 @RefreshScope
 @RequestMapping("/retail")
+@CacheConfig(cacheNames = {"orders"})
 public class RetailApiController {
     // Retail Endpoints
     @Autowired
@@ -24,6 +28,7 @@ public class RetailApiController {
         this.retailService = retailService;
     }
 
+    @CachePut(key = "#result.getInvoiceId()")
     @RequestMapping(value = "/invoices", method = RequestMethod.POST)
     public RetailViewModel submitOrder(@Valid @RequestBody RetailViewModel order) {
 
@@ -31,6 +36,7 @@ public class RetailApiController {
 
     }
 
+    @Cacheable
     @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)
     public InvoiceViewModel getInvoiceById(@PathVariable int id) {
         InvoiceViewModel ivm = retailService.getInvoiceById(id);
@@ -49,6 +55,7 @@ public class RetailApiController {
         return ivmList;
     }
 
+    @Cacheable
     @RequestMapping(value = "/invoices/customer/{id}", method = RequestMethod.GET)
     public List<InvoiceViewModel> getInvoicesByCustomerId(@PathVariable int id) {
         List<InvoiceViewModel> ivmList = retailService.getInvoicesByCustId(id);
@@ -67,6 +74,7 @@ public class RetailApiController {
         return productList;
     }
 
+    @Cacheable
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
     public Product getProductById(@PathVariable int id) {
         Product product = retailService.getProductById(id);
@@ -76,6 +84,7 @@ public class RetailApiController {
         return product;
     }
 
+    @Cacheable
     @RequestMapping(value = "/products/invoice/{id}", method = RequestMethod.GET)  //can be derived from service layers and existing crud methods in other services
     public List<Product> getProductByInvoiceId(@PathVariable int id) {
         List<Product> productList = retailService.getProductByInvoiceId(id);
@@ -85,8 +94,9 @@ public class RetailApiController {
         return productList;
     }
 
+    @Cacheable
     @RequestMapping(value = "/levelup/customer/{id}", method = RequestMethod.GET)
-    public int getLevelUpPointsByCustomerId(int id) {
+    public int getLevelUpPointsByCustomerId(@PathVariable("id") int id) {
         return retailService.getLevelUpPointsByCustomerId(id);
     }
 }
