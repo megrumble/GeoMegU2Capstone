@@ -47,6 +47,9 @@ public class RetailApiServiceTest {
         setUpCustomerClientMock();
         setUpLevelUpClientMock();
         setUpInvoiceClientMock();
+        setUpProductClientMock();
+        setUpInventoryClientMock();
+        setupRabbitTemplateMock();
     }
     @Test
     public void submitOrder() {
@@ -267,6 +270,9 @@ public class RetailApiServiceTest {
         doReturn(memberList).when(levelUpClient).getAllMembers();
         doReturn(10).when(levelUpClient).getPointsByCustId(5);
 
+
+    }
+    public void setupRabbitTemplateMock() {
 
     }
 }
