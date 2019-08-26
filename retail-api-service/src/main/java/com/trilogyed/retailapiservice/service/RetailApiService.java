@@ -141,10 +141,10 @@ public class RetailApiService {
         return 0;
     }
 
-    public InvoiceViewModel getInvoiceById(int id) {
+    public InvoiceViewModel getInvoiceById(int id) throws NotFoundException{
         InvoiceViewModel ivm = invoiceClient.getInvoice(id);
         if(ivm == null){
-            throw new NotFoundException("No invoice found for id" + id);
+            throw new NotFoundException("No invoice found for id " + id);
         }
 
         return ivm;

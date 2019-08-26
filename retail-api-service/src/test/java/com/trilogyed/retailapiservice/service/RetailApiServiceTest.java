@@ -3,7 +3,9 @@ package com.trilogyed.retailapiservice.service;
 import com.trilogyed.retailapiservice.models.*;
 import com.trilogyed.retailapiservice.util.feign.*;
 import com.trilogyed.retailapiservice.viewmodel.InvoiceViewModel;
+import com.trilogyed.retailapiservice.viewmodel.RetailViewModel;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -41,6 +44,52 @@ public class RetailApiServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         setUpCustomerClientMock();
+
+    }
+    @Test
+    public void submitOrder() {
+        List<OrderItem> orderItems = new ArrayList<>();
+        OrderItem item = new OrderItem();
+        item.setProductId(1);
+        item.setListPrice(new BigDecimal("20.00"));
+        item.setQuantity(2);
+        orderItems.add(item);
+
+
+        RetailViewModel rvm = new RetailViewModel();
+        rvm.setCustomerId(1);
+        rvm.setPurchaseDate(LocalDate.of(2019,9,1));
+        rvm.setOrderItems(orderItems);
+    }
+    @Test
+    public void findFindAllInvoices() {
+        List<InvoiceItem> invoiceItems = new ArrayList<>();
+
+        InvoiceItem invItem = new InvoiceItem();
+        invItem.setInvoiceItemId(9);
+        invItem.setInvoiceId(1);
+        invItem.setInventoryId(1);
+        invItem.setQuantity(2);
+        invItem.setUnitPrice(new BigDecimal("5.00").setScale(2, RoundingMode.HALF_UP));
+        invoiceItems.add(invItem);
+
+        InvoiceViewModel ivm = new InvoiceViewModel();
+        ivm.setInvoiceId(1);
+        ivm.setCustomerId(12);
+        ivm.setPurchaseDate(LocalDate.of(2019, 9,1));
+        ivm.setInvoiceItemsList(invoiceItems);
+
+
+        InvoiceViewModel fromService = service.getInvoiceById(1);
+
+        assertEquals(ivm, fromService);
+
+        List<InvoiceViewModel> invoiceViewModels = service.getAllInvoices();
+        assertEquals(invoiceViewModels.size(), 1);
+
+
+
+
 
     }
 
@@ -150,17 +199,19 @@ public class RetailApiServiceTest {
 
         InvoiceItem invItem = new InvoiceItem();
         invItem.setInvoiceItemId(9);
-        invItem.setInventoryId(5);
-        invItem.setQuantity(20);
-        invItem.setUnitPrice(new BigDecimal(5.00).setScale(2, RoundingMode.HALF_UP));
+        invItem.setInvoiceId(1);
+        invItem.setInventoryId(1);
+        invItem.setQuantity(2);
+        invItem.setUnitPrice(new BigDecimal("5.00").setScale(2, RoundingMode.HALF_UP));
         invoiceItemsInvoice1.add(invItem);
 
         InvoiceItem invItem2 = new InvoiceItem();
         invItem2.setInvoiceItemId(10);
+
         invItem2.setInventoryId(3);
         invItem2.setQuantity(12);
-        invItem2.setUnitPrice(new BigDecimal(3.00).setScale(2, RoundingMode.HALF_UP));
-        invoiceItemsInvoice1.add(invItem2);
+        invItem2.setUnitPrice(new BigDecimal("3.00").setScale(2, RoundingMode.HALF_UP));
+//        invoiceItemsInvoice1.add(invItem2);
 
 
         InvoiceViewModel invoice1 = new InvoiceViewModel();
@@ -189,13 +240,13 @@ public class RetailApiServiceTest {
 
         //add mock information here for tests
         Member member = new Member();
-        member.setCustomerId(5);
+        member.setCustomerId(1);
         member.setPoints(10);
         member.setMemberDate(LocalDate.of(2019, 9, 1));
 
         Member member2 = new Member();
         member2.setLevelUpId(1);
-        member2.setCustomerId(5);
+        member2.setCustomerId(1);
         member2.setPoints(10);
         member2.setMemberDate(LocalDate.of(2019, 9, 1));
         memberList.add(member2);
@@ -210,7 +261,7 @@ public class RetailApiServiceTest {
 
         doReturn(member2).when(levelUpClient).createMember(member);
         doReturn(member2).when(levelUpClient).getMember(1);
-        doReturn(member2).when(levelUpClient).getMemberByCustomerId(5);
+        doReturn(member2).when(levelUpClient).getMemberByCustomerId(1);
         doReturn(memberList).when(levelUpClient).getAllMembers();
         doReturn(10).when(levelUpClient).getPointsByCustId(5);
 
