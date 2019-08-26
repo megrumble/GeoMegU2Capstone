@@ -1,0 +1,530 @@
+openapi: 3.0.0
+info:
+  title: Admin Service
+  description:
+    A simple service that allows CRUD operations for a game store admin
+    system.
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:8282'
+    description: Local dev server
+paths:
+  /admin/products:
+    post:
+      summary: Creates a new product entry with the given information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: A product object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete product information. Some required fields missing.
+    get:
+      summary: Retrieves a list of all products in inventory
+      responses:
+        '200':
+          description: List of all Products
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/Product' 
+  /admin/products/{id}:
+    # GET, DELETE, and PUT are all under this path entry
+    get:
+      summary: Retrieves the entry for the game with the give ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the product you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Product object matching given ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+      
+    delete:
+      summary: Deletes the entry for the product with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the product you would like to delete.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Product successfully deleted.
+          
+    put:
+      summary: Updated the entry for the product with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the product you would like to update.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Product successfully updated.
+        '422':
+          description: Product ID on path mush match the ID in the Product object.
+  /admin/customers:
+    post:
+      summary: Creates a new customer entry with the given information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: A customer object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete customer information. Some required fields missing.
+    get:
+      summary: Retrieves a list of all customers
+      responses:
+        '200':
+          description: List of all Customers
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/Customer' 
+  /admin/customers/{id}:
+    # GET, DELETE, and PUT are all under this path entry
+    get:
+      summary: Retrieves the entry for the customer with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the customer you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Customer object matching given ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      
+    delete:
+      summary: Deletes the entry for the customer with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the customer you would like to delete.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Customer successfully deleted.
+          
+    put:
+      summary: Updated the entry for the customer with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the customer you would like to update.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Customer successfully updated.
+        '422':
+          description: Customer ID on path mush match the ID in the Customer object.
+  /admin/levelup:
+    post:
+      summary: Creates a new levelup member entry with the given information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LevelUp'
+      responses:
+        '201':
+          description: A member object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LevelUp'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete member information. Some required fields missing.
+    get:
+      summary: Retrieves a list of all members
+      responses:
+        '200':
+          description: List of all members
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/LevelUp' 
+  /admin/levelup/{id}:
+    # GET, DELETE, and PUT are all under this path entry
+    get:
+      summary: Retrieves the entry for the member with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the member you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: member object matching given ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LevelUp'
+      
+    delete:
+      summary: Deletes the entry for the member with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the member you would like to delete.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Member successfully deleted.
+          
+    put:
+      summary: Updated the entry for the member with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the member you would like to update.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LevelUp'
+      responses:
+        '200':
+          description: Member successfully updated.
+        '422':
+          description: Member ID on path mush match the ID in the Member object.
+  /admin/inventory:
+    post:
+      summary: Creates a new inventory entry with the given information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Inventory'
+      responses:
+        '201':
+          description: An inventory object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete member information. Some required fields missing.
+    get:
+      summary: Retrieves a list of all members
+      responses:
+        '200':
+          description: List of all members
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/Inventory' 
+  /admin/inventory/{id}:
+    # GET, DELETE, and PUT are all under this path entry
+    get:
+      summary: Retrieves the entry for the inventory with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the inventory you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: inventory object matching given ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+      
+    delete:
+      summary: Deletes the entry for the inventory with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the inventory you would like to delete.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: inventory successfully deleted.
+          
+    put:
+      summary: Updated the entry for the inventory with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the inventory you would like to update.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Inventory'
+      responses:
+        '200':
+          description: Member successfully updated.
+        '422':
+          description: Member ID on path mush match the ID in the Member object.
+  /admin/invoice:
+    post:
+      summary: Creates a new invoice entry with the given information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '201':
+          description: A invoice object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete purchase information. Some required fields missing.
+    get:
+      summary: Retrieves a list of all invoices
+      responses:
+        '200':
+          description: List of Invoices
+  /admin/invoice/{id}:
+    get:
+      summary: Retrieves the invoice with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: id of the invoice you would like to retrieve.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: invoice with the given id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+    delete:
+      summary: Deletes the entry for the invoice with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the invoice you would like to delete.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: invoice successfully deleted.
+          
+    put:
+      summary: Updated the entry for the invoice with the given ID.
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: ID of the invoice you would like to update.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '200':
+          description: Member successfully updated.
+        '422':
+          description: Member ID on path mush match the ID in the Member object.
+    
+components:
+  schemas:
+    Invoice:
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        purchaseDate:
+          type: object
+      required:
+        - id
+        - customerId
+        - purchaseDate
+    Inventory:
+      properties:
+        id:
+          type: integer
+        productId:
+          type: integer
+        quantity:
+          type: integer
+      required:
+       - id
+       - productId
+       - quantity
+    Customer:
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        street: 
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+      required:
+        - id
+        - firstName
+        - lastName
+        - street
+        - city
+        - zip
+        - email
+        - phone
+    Product:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        listPrice:
+          type: number
+        unitCost:
+          type: number
+      required:
+        - id
+        - name
+        - description
+        - listPrice
+        - unitCost
+    LevelUp:
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        points: 
+          type: integer
+        memberDate:
+          type: object
+      required:
+       - id
+       - customerId
+       - points
+       - memberDate
+
+
+
+
+        

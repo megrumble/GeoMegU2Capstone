@@ -55,10 +55,29 @@ public class InvoiceViewModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InvoiceViewModel that = (InvoiceViewModel) o;
-        return invoiceId == that.invoiceId &&
-                customerId == that.customerId &&
-                purchaseDate.equals(that.purchaseDate) &&
-                invoiceItemsList.equals(that.invoiceItemsList);
+        boolean check = false;
+        if(getInvoiceId() == that.getInvoiceId()) {
+            check = true;
+        }else{
+            return false;
+        }
+        if(getCustomerId() == that.getCustomerId()){
+            check=true;
+        }else{
+            return false;
+        }
+        if((getPurchaseDate() == null && that.getPurchaseDate() == null) || getPurchaseDate().equals(that.getPurchaseDate())) {
+            check = true;
+        }else{
+            return false;
+        }
+        if((getInvoiceItemsList() == null && that.getInvoiceItemsList() == null) ||
+                (getInvoiceItemsList().containsAll(that.getInvoiceItemsList()) && that.getInvoiceItemsList().containsAll(getInvoiceItemsList()))){
+            check = true;
+        }else{
+            return false;
+        }
+        return check ;
     }
 
     @Override
