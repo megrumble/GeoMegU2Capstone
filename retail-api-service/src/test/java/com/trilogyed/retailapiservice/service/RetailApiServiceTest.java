@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -44,7 +45,8 @@ public class RetailApiServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         setUpCustomerClientMock();
-
+        setUpLevelUpClientMock();
+        setUpInvoiceClientMock();
     }
     @Test
     public void submitOrder() {
@@ -62,7 +64,7 @@ public class RetailApiServiceTest {
         rvm.setOrderItems(orderItems);
     }
     @Test
-    public void findFindAllInvoices() {
+    public void findInvoices() {
         List<InvoiceItem> invoiceItems = new ArrayList<>();
 
         InvoiceItem invItem = new InvoiceItem();
@@ -84,8 +86,8 @@ public class RetailApiServiceTest {
 
         assertEquals(ivm, fromService);
 
-        List<InvoiceViewModel> invoiceViewModels = service.getAllInvoices();
-        assertEquals(invoiceViewModels.size(), 1);
+//        List<InvoiceViewModel> invoiceViewModels = service.getAllInvoices();
+//        assertEquals(invoiceViewModels.size(), 1);
 
 
 
